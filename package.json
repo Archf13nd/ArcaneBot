@@ -1,0 +1,38 @@
+{
+  "name": "arcanebot",
+  "version": "1.0.0",
+  "description": "A multi-functional discord bot",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "debug": "ndb bot.js",
+    "lint": "eslint './**' --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Archf13nd/ArcaneBot.git"
+  },
+  "author": "Alastair Parkyns",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Archf13nd/ArcaneBot/issues"
+  },
+  "homepage": "https://github.com/Archf13nd/ArcaneBot#readme",
+  "dependencies": {
+    "@discordjs/rest": "^1.1.0",
+    "@discordjs/voice": "^0.11.0",
+    "discord.js": "^14.3.0",
+    "dotenv": "^16.0.1",
+    "node-fetch": "^2.6.0",
+    "play-dl": "^1.9.5",
+    "puppeteer": "^17.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "ndb": "^1.1.5",
+    "prettier": "^2.7.1"
+  }
+}
