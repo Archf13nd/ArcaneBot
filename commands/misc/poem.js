@@ -4,7 +4,12 @@ const { SlashCommandBuilder } = require('discord.js');
 const requestPoem = async (title) => {
   let poem;
   try {
-    const response = await fetch(`https://poetrydb.org/title,poemcount/${title};1/author,title,lines.text`);
+    let response
+    if (title) {
+      response = await fetch(`https://poetrydb.org/title,poemcount/${title};1/author,title,lines.text`);
+    } else {
+      response = await fetch('https://poetrydb.org/random/1/title,author,lines.text')
+    }
     const body = await response.text();
     if (body.includes('"status":404')) {
       throw new Error('404');
@@ -69,8 +74,7 @@ module.exports = {
     .setName('get-poem')
     .setDescription('Responds with a poem that matches given title')
     .addStringOption((option) => option.setName('title')
-      .setDescription('The title of the poem you want')
-      .setRequired(true)),
+      .setDescription('The title of the poem you want')),
   async execute(interaction) {
     const poem = await requestPoem(interaction.options.getString('title'));
 

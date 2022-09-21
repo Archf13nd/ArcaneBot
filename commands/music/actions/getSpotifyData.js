@@ -1,5 +1,5 @@
 const playDL = require('play-dl');
-// const interactionError = require('../../../util/interactionError');
+const InteractionError = require('../../../util/interactionError');
 
 const createKeywordString = (track) => {
   const songName = track.name;
@@ -18,22 +18,24 @@ module.exports = async (URL) => {
   }
 
   const arrayOfKeywords = [];
-  const data = await playDL.spotify(URL);
-  if (data.type === 'track') {
-    const searchString = createKeywordString(data);
-    arrayOfKeywords.push(searchString);
-  } else {
-    const arrayOfTracks = await data.all_tracks();
-    for (let i = 0; i < arrayOfTracks.length; i += 1) {
-      const searchString = createKeywordString(arrayOfTracks[i]);
+  try {
+    const data = await playDL.spotify(URL);
+    if (data.type === 'track') {
+      const searchString = createKeywordString(data);
       arrayOfKeywords.push(searchString);
+    } else {
+      const arrayOfTracks = await data.all_tracks();
+      for (let i = 0; i < arrayOfTracks.length; i += 1) {
+        const searchString = createKeywordString(arrayOfTracks[i]);
+        arrayOfKeywords.push(searchString);
+      }
     }
-  }
-  arrayOfKeywords.reverse();
-
-  return {
-    queries: arrayOfKeywords,
-    playlistName: data.name,
-    playlistURL: data.url,
-  };
+    arrayOfKeywords.reverse();
+    return {
+      queries: arrayOfKeywords,
+      playlistName: data.name,
+      playlistURL: data.url,
+    };
+  } catch {
+    throw new InteractionError('404', 'Cannot access playlist, perhaps it is private?')}
 };

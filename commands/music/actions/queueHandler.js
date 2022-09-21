@@ -14,13 +14,16 @@ module.exports = async (theConnection) => {
   // Handle user message, pass in youtube data
 
   // If there are no songs left
-  if (!connection.player.queue[0].arrayOfQueries[0]) {
+  if (!connection.player.queue[0] || !connection.player.queue[0].arrayOfQueries[0]) {
     await connection.display.edit('End of tunes');
     return false;
   }
   // Removes empty playlists
-  if (!queue[queue.length - 1].arrayOfQueries[0]) {
-    queue.pop();
+  if (connection.player.state.status === 'idle') {
+    if (!queue[queue.length - 1].arrayOfQueries[0]) {
+      console.log('Queue was popped')
+      queue.pop();
+    }
   }
   // Since there are songs in queue, ready those songs
   // Manipulates next number of songs in queue to be youtube data
@@ -50,5 +53,6 @@ module.exports = async (theConnection) => {
   const display = handleDisplay(currentSong, currentPlaylist, loadedSongs);
   await connection.display.edit(display);
 
+  // console.log(queue)
   return true;
 };

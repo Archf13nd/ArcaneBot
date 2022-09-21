@@ -7,6 +7,7 @@ const skipSong = async (player) => {
   player.stop();
 };
 const skipPlaylist = async (player, queue) => {
+  console.log(queue)
   queue.pop();
   player.stop();
 };
@@ -33,13 +34,13 @@ module.exports = {
     }
 
     const option = await interaction.options.getString('options');
-    const { queue } = connection.player;
+    const {queue} = connection.player;
 
     if (option === 'theSong') {
       if (queue[queue.length - 1].arrayOfQueries[0]) {
-        skipSong(connection.player);
+        await skipSong(connection.player);
       } else {
-        skipPlaylist(connection.player, queue);
+        await skipPlaylist(connection.player, queue);
       }
     }
     if (option === 'thePlaylist') {
